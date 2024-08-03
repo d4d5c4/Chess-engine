@@ -1,6 +1,6 @@
 #include<iostream>
 #include<iomanip>
-#include<bits/stdc++.h>
+//#include<bits/stdc++.h>
 #include<chrono>
 #include<cstdlib>
 using namespace std;
@@ -2725,38 +2725,52 @@ void play(Board &initBoard){
         if(s[0]=='q'){
             return;
         }
-        int a=s[0]-'a';
-        int b='8'-s[1];
-        int c=b*8+a;
-        a=s[3]-'a';
-        b='8'-s[4];
-        int d=b*8+a;
-        square1=c;
-        square2=d;
-        piece1=board[square1];
-        piece2=board[square2];
-        initBoard.makeMove(c,d);
-        displayBoard();
-        evalChange=0;
-        if(piece1==9){
-            evalChange+=nValues[63-square2]-nValues[63-square1];
+        if(s[0]=='s'){
+            board[4]=6;
+            board[6]=12;
+            board[5]=8;
+            board[7]=6;
         }
-        else if(piece1==7){
-            evalChange+=pValues[63-square2]-pValues[63-square1];
+        else if(s[0]=='l'){
+            board[4]=6;
+            board[2]=12;
+            board[3]=8;
+            board[0]=6;
         }
-        if(piece2<6){
-            if(piece2==0){
-                evalChange+=pValues[square2];
+        else{
+            int a=s[0]-'a';
+            int b='8'-s[1];
+            int c=b*8+a;
+            a=s[3]-'a';
+            b='8'-s[4];
+            int d=b*8+a;
+            square1=c;
+            square2=d;
+            piece1=board[square1];
+            piece2=board[square2];
+            initBoard.makeMove(c,d);
+            displayBoard();
+            evalChange=0;
+            if(piece1==9){
+                evalChange+=nValues[63-square2]-nValues[63-square1];
             }
-            else if(piece2==2){
-                evalChange+=nValues[square2];
+            else if(piece1==7){
+                evalChange+=pValues[63-square2]-pValues[63-square1];
             }
-            evalChange+=pieceValues[piece2];
+            if(piece2<6){
+                if(piece2==0){
+                    evalChange+=pValues[square2];
+                }
+                else if(piece2==2){
+                    evalChange+=nValues[square2];
+                }
+                evalChange+=pieceValues[piece2];
+            }
+            initBoard.staticEval-=evalChange;
+            cout<<"se "<<initBoard.staticEval<<endl;
+            cout<<"uc "<<evalChange<<endl;
+            cout<<initBoard.wevl<<" "<<initBoard.bevl<<endl;
         }
-        initBoard.staticEval-=evalChange;
-        cout<<"se "<<initBoard.staticEval<<endl;
-        cout<<"uc "<<evalChange<<endl;
-        cout<<initBoard.wevl<<" "<<initBoard.bevl<<endl;
         int ttl=initBoard.staticEval+initBoard.wevl+initBoard.bevl;
         initBoard.alpha=pv[0]-alphaLimit;
         initBoard.beta=pv[0]+alphaLimit;
