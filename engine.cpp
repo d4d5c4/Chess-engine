@@ -2730,12 +2730,14 @@ void play(Board &initBoard){
             board[6]=12;
             board[5]=8;
             board[7]=6;
+            displayBoard();
         }
         else if(s[0]=='l'){
             board[4]=6;
             board[2]=12;
             board[3]=8;
             board[0]=6;
+            displayBoard();
         }
         else{
             int a=s[0]-'a';
